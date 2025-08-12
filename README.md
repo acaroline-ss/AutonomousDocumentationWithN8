@@ -30,7 +30,7 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
 
 ---
 
-## 🛠️ Como correr na sua máquina (Windows)
+# 🛠️ Como correr na sua máquina (Windows)
 
 ### 1) Criar o container do n8n pelo terminal do computador (windows)
 
