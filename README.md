@@ -1,16 +1,14 @@
 # Auto Documentation with n8n + LLM
 
 Gera documentação em **Markdown** a partir de arquivos **.py** de um repositório Git, usando um fluxo no **n8n** conectado a um **LLM** (Groq ou LM Studio).  
-**Saída padrão:** `DOCUMENTATION.md` dentro de `/data/repos`.
 
 ## 📌 Visão geral
 - Clona um repositório  
-- Lê todos os arquivos indiciados no nó **Ler arquivos de código**
+- Lê todos os arquivos indicados no nó **Ler arquivos de código**
 - Converte binários → texto  
 - Envia cada arquivo ao LLM com um prompt de documentação  
 - Junta as respostas  
-- Salva em `DOCUMENTATION.md`  
-
+- Gera a documentação e salva na pasta indicada no último nó
 > Workflow principal: `workflow.json`.
 
 ## 🔧 Funcionalidades
@@ -22,8 +20,7 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
 ## ✅ Pré-requisitos
 - **Docker** instalado
 - **Git dentro do container do n8n** (para `git clone`)
-- **Uma API de IA** 
-  - **LM Studio** 
+- **LM Studio**
 ---
 
 # 🛠️ Como correr na sua máquina (Windows)
@@ -32,7 +29,7 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
 - Baixar e instalar o Docker Desktop
 - Página oficial (download): https://www.docker.com/ 
 - Guia oficial de uso: https://docs.docker.com/
-A seguir, crie o cointaine no terminal no seguinte formato: 
+- A seguir, crie o container no terminal no seguinte formato: 
 `docker run -it --name <CONTAINER_NAME> ^
   -v <HOST_PATH_TO_DATA>:/data ^
   -p <HOST_PORT>:5678 ^
@@ -49,11 +46,11 @@ Abra: http://localhost:5679
   
 ### 4) Importar o workflow
 
-No n8n, vá em: **Create wokflow → Import from file → Selecione o ** `workflow.json`.
+No n8n, vá em: **Create wokflow → Import from file → Selecione o** `workflow.json`.
 
-# ⚙️ Como configurar o fluxo no n8n
+# ⚙️ Como configurar os nós do fluxo do n8n
 
-## 1) Nó **Clonar repositório** 
+## 1) **Clonar repositório** 
 
 `rm -rf <TARGET_DIR> && git clone <REPO_URL> <TARGET_DIR>`
 
@@ -65,22 +62,23 @@ Ex.: no container do n8n normalmente é /data/repos.
 Exemplo Completo:
 `rm -rf /data/repos && git clone https://github.com/usuario/meu-repo.git /data/repos`
 
-## 2) Nó **Ler Arquivos do código**
+## 2) **Ler Arquivos do código**
 
 Percorre os arquivos na pasta indicada e pega os arquivos na linguagem escolhida.
 
 Exemplo:
 `/data/repos/**/*.py`
 
-`/data/repos/` → pasta base onde a busca começa.
-`**/` → percorre recursivamente zero ou mais subpastas.
-`*.py` → pega arquivos cujo nome termina em `py`
+- `/data/repos/` → pasta base onde a busca começa.
+- `**/` → percorre recursivamente zero ou mais subpastas.
+- `*.py` → pega arquivos cujo nome termina em `py`
 
-## 3) Nó **AI Agent**
+## 3) **AI Agent**
 
-Neste nó podem ser usado dois tipos de APIs:
+Neste nó podem ser usados dois tipos de APIs:
 
-### **API Externa**: utiliza uma chave de API da OpenAI ou da Groq, obtida nas respetivas contas oficiais, para integrar o provedor externo ao teu fluxo conforme necessário.
+### **API Externa**: 
+Utiliza uma chave de API da OpenAI ou da Groq, obtida nas respetivas contas oficiais, para integrar o provedor externo ao teu fluxo conforme necessário.
 ### **API Local**: 
 ### 📥 Instalar o LM Studio
 
@@ -102,7 +100,7 @@ Use o nó **OpenAI Chat Model** (ou **OpenAI Compatible Chat**) e crie uma crede
 - **Base URL:** `http://localhost:1234/v1` (ou `http://host.docker.internal:1234/v1` se o n8n estiver correndo em um container no Docker)
 - **Model:** exatamente o nome exibido no LM Studio (ex.: `llama-3.2-3b-instruct`)
 
-## 4) Após isto, a documentação será gerada e guardada na pasta indicada no nó **Salvar DOCUMENTATION** 
+### 4) Após isto, basta clicar em *Execute workflow* no n8n e a documentação será gerada e guardada na pasta indicada no nó **Salvar DOCUMENTATION** 
 
 
 
