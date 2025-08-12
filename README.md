@@ -11,7 +11,7 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
 - Junta as respostas  
 - Salva em `DOCUMENTATION.md`  
 
-> Workflow principal: `workflow/workflow.json`.
+> Workflow principal: `workflow.json`.
 
 ## 🔧 Funcionalidades
 - Executa localmente via **Docker**
@@ -32,9 +32,7 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
 
 ## 🛠️ Como correr na sua máquina (Windows)
 
-### 1) Criar o container do n8n
-
-Use o formato que você já testou (ajuste o caminho do Windows se necessário):
+### 1) Criar o container do n8n pelo terminal do computador (windows)
 
 `docker run -it --name <CONTAINER_NAME> ^
   -v <HOST_PATH_TO_DATA>:/data ^
