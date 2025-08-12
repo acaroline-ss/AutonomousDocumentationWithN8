@@ -16,18 +16,14 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
 ## 🔧 Funcionalidades
 - Executa localmente via **Docker**
 - Importação do `workflow.json` direto no n8n
-- Uso do **LM Studio** (modelo local via `host.docker.internal:<PORTA>`)
-- Padrão de leitura recursiva `**/*.py`
+- Uso do **LM Studio** (modelo de IA local via `host.docker.internal:<PORTA>`)
 - Geração de documentação em Markdown (títulos, listas, trechos de código)
 
 ## ✅ Pré-requisitos
 - **Docker** instalado
 - **Git dentro do container do n8n** (para `git clone`)
-- **Uma API de IA** (escolha uma):
-  - **Groq** (externa), ou
+- **Uma API de IA** 
   - **LM Studio** (local, compatível com OpenAI), ou
-  - **OpenAI** (externa)
-
 ---
 
 # 🛠️ Como correr na sua máquina (Windows)
