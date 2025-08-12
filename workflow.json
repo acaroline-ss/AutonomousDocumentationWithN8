@@ -1,0 +1,239 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "8456330e-84d9-47b8-87ce-f84880589dba",
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const buffer = item.binary.data.data;\n  const content = Buffer.from(buffer, 'base64').toString('utf8');\n\n  return {\n    json: {\n      filename: item.binary.data.fileName,\n      text: content\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        0
+      ],
+      "id": "c04e18e2-55a5-4f35-a566-efad9db6f476",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Gere uma documentação em Markdown com base no seguinte código-fonte.\n\nInstruções:\n- Use como título principal o nome do arquivo: {{ $json.filename }}\n- Escreva um resumo claro e objetivo explicando o propósito principal do código.\n- Liste todas as **classes**, descrevendo:\n  - Para que servem\n  - Seus atributos e métodos\n- Liste todas as **funções ou métodos**, explicando:\n  - O que fazem\n  - Quais são os parâmetros que recebem\n- Liste as **variáveis mais importantes**, explicando qual o papel de cada uma no jogo.\n- Mantenha a linguagem clara, objetiva e em português.\n- Formate tudo usando Markdown, com uso correto de:\n  - Títulos (`#`, `##`, `###`)\n  - Listas com `-`\n  - Blocos de código, se necessário\n- **Não invente informações**. Gere a documentação apenas com base no conteúdo fornecido.\n- Não inclua arquivos ou funções que não estejam visivelmente no código fornecido.\n\nCódigo de entrada:\n{{ $json.text }}\n\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        0
+      ],
+      "id": "4067581f-6e51-49f2-9f26-7bbe589a42d2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        0
+      ],
+      "id": "63dfb7b9-b641-43af-aba9-312a9986f713",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "llama-3.2-3b-instruct",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        784,
+        192
+      ],
+      "id": "da4ea7d9-a50a-4a37-86cd-588ce345596f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "AsZrz60h70bhnSKM",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "command": "rm -rf <TARGET_DIR> && git clone <REPO_URL> <TARGET_DIR>\n\n"
+      },
+      "id": "dbb6a757-3752-4e33-88ac-699aaa8b45f1",
+      "name": "Clone repository",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        192,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "fileSelector": "<BASE_DIR>/**/*.<EXT>"
+      },
+      "id": "056374e9-38ee-4758-bc95-9e207b23a405",
+      "name": "Read Code Files",
+      "type": "n8n-nodes-base.readBinaryFiles",
+      "typeVersion": 1,
+      "position": [
+        400,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nlet content = '';\n\nfor (const item of items) {\n  content += item.json.output + '\\n\\n';\n}\n\nreturn [{ json: { text: content } }];\n\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1136,
+        0
+      ],
+      "id": "4aeb4c8c-5a61-44cc-a547-ef09fde4fd30",
+      "name": "Merge Documentation"
+    },
+    {
+      "parameters": {
+        "fileName": "<BASE_DIR>/<OUTPUT_FILENAME>",
+        "dataPropertyName": "=data",
+        "options": {}
+      },
+      "id": "2374e7e6-9de9-407c-8fa0-ea9dd355b636",
+      "name": "Save DOCUMENTATION.md",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Clone repository",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge Documentation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Save DOCUMENTATION.md",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clone repository": {
+      "main": [
+        [
+          {
+            "node": "Read Code Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Code Files": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Documentation": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b1fe4782-c5f8-47a5-8d96-0ffe245e301a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "40e53d18001972e9f9112c97efdfc3732d3e593cc3f3ab49d818b8f537f09695"
+  },
+  "id": "scxSvzTWJdRY1EZn",
+  "tags": []
+}
