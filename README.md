@@ -5,7 +5,7 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
 
 ## 📌 Visão geral
 - Clona um repositório  
-- Lê todos os `.py`  
+- Lê todos os arquivos indiciados no nó **Ler arquivos de código**
 - Converte binários → texto  
 - Envia cada arquivo ao LLM com um prompt de documentação  
 - Junta as respostas  
