@@ -23,13 +23,16 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
 - **Docker** instalado
 - **Git dentro do container do n8n** (para `git clone`)
 - **Uma API de IA** 
-  - **LM Studio** (local, compatível com OpenAI), ou
+  - **LM Studio** 
 ---
 
 # 🛠️ Como correr na sua máquina (Windows)
 
-### 1) Criar o container do n8n pelo terminal do computador (windows)
-
+### 1) Instalar o docker e criar o container do n8n (windows)
+- Baixar e instalar o Docker Desktop
+- Página oficial (download): https://www.docker.com/ 
+- Guia oficial de uso: https://docs.docker.com/
+A seguir, crie o cointaine no terminal no seguinte formato: 
 `docker run -it --name <CONTAINER_NAME> ^
   -v <HOST_PATH_TO_DATA>:/data ^
   -p <HOST_PORT>:5678 ^
