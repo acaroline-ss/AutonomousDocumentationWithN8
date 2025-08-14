@@ -1,35 +1,35 @@
 # Auto Documentation with n8n + LLM
 
-Gera documentação em **Markdown** a partir de arquivos **.py** de um repositório Git, usando um fluxo no **n8n** conectado a um **LLM** (Groq ou LM Studio).  
+Generates documentation in **Markdown** from **.py** files in a Git repository using an **n8n** workflow connected to an **LLM** (Groq or LM Studio).  
 
-## 📌 Visão geral
-- Clona um repositório  
-- Lê todos os arquivos indicados no nó **Ler arquivos de código**
-- Converte binários → texto  
-- Envia cada arquivo ao LLM com um prompt de documentação  
-- Junta as respostas  
-- Gera a documentação e salva na pasta indicada no último nó
-> Workflow principal: `workflow.json`.
+## 📌 Overview
+- Clones a repository  
+- Reads all files specified in the **Read code files** node
+- Converts binaries → text  
+- Sends each file to the LLM with a documentation prompt  
+- Merges the responses  
+- Generates the documentation and saves it in the folder specified in the last node  
+> Main workflow: `workflow.json`.
 
-## 🔧 Funcionalidades
-- Executa localmente via **Docker**
-- Importação do `workflow.json` direto no n8n
-- Uso do **LM Studio** (modelo de IA local via `host.docker.internal:<PORTA>`)
-- Geração de documentação em Markdown (títulos, listas, trechos de código)
+## 🔧 Features
+- Runs locally via **Docker**
+- Imports `workflow.json` directly into n8n
+- Uses **LM Studio** (local AI model via `host.docker.internal:<PORT>`)
+- Generates documentation in Markdown (headings, lists, code snippets)
 
-## ✅ Pré-requisitos
-- **Docker** instalado
-- **Git dentro do container do n8n** (para `git clone`)
+## ✅ Requirements
+- **Docker** installed
+- **Git inside the n8n container** (for `git clone`)
 - **LM Studio**
 ---
 
-# 🛠️ Como correr na sua máquina (Windows)
+# 🛠️ How to Run on Your Machine (Windows)
 
-### 1) Instalar o docker e criar o container do n8n (windows)
-- Baixar e instalar o Docker Desktop
-- Página oficial (download): https://www.docker.com/ 
-- Guia oficial de uso: https://docs.docker.com/
-- A seguir, crie o container no terminal no seguinte formato: 
+### 1) Install Docker and Create the n8n Container (Windows)
+- Download and install Docker Desktop
+- Official download page: https://www.docker.com/ 
+- Official usage guide: https://docs.docker.com/
+- Then, create the container in the terminal in the following format: 
 `docker run -it --name <CONTAINER_NAME> ^
   -v <HOST_PATH_TO_DATA>:/data ^
   -p <HOST_PORT>:5678 ^
@@ -38,69 +38,71 @@ Gera documentação em **Markdown** a partir de arquivos **.py** de um repositó
   -e N8N_BASIC_AUTH_PASSWORD=<BASIC_AUTH_PASSWORD> ^
   <IMAGE_NAME>`
 
-### 2) Baixe o arquivo **workflow.json** que está neste repositório
+### 2) Download the **workflow.json** file from this repository
 
-### 3) Acesse o n8n 
+### 3) Access n8n 
 
-Abra: http://localhost:5679
+Open: http://localhost:5679
   
-### 4) Importar o workflow
+### 4) Import the workflow
 
-No n8n, vá em: **Create wokflow → Import from file → Selecione o** `workflow.json`.
+In n8n, go to: **Create workflow → Import from file → Select** `workflow.json`.
 
-# ⚙️ Como configurar os nós do fluxo do n8n
+# ⚙️ How to Configure the n8n Workflow Nodes
 
-## 1) **Clonar repositório** 
+## 1) **Clone Repository** 
 
 `rm -rf <TARGET_DIR> && git clone <REPO_URL> <TARGET_DIR>`
 
-`<TARGET_DIR>`: a pasta de destino local onde o repositório será clonado.
-Ex.: no container do n8n normalmente é /data/repos.
+`<TARGET_DIR>`: the local destination folder where the repository will be cloned.
+Example: in the n8n container it’s usually /data/repos.
 
-`<REPO_URL>`: a URL do repositório Git (HTTPS ou SSH).
+`<REPO_URL>`: the Git repository URL (HTTPS or SSH).
 
-Exemplo Completo:
-`rm -rf /data/repos && git clone https://github.com/usuario/meu-repo.git /data/repos`
+Full example:
+`rm -rf /data/repos && git clone https://github.com/user/my-repo.git /data/repos`
 
-## 2) **Ler Arquivos do código**
+## 2) **Read Code Files**
 
-Percorre os arquivos na pasta indicada e pega os arquivos na linguagem escolhida.
+Traverses the files in the specified folder and retrieves files in the chosen language.
 
-Exemplo:
+Example:
 `/data/repos/**/*.py`
 
-- `/data/repos/` → pasta base onde a busca começa.
-- `**/` → percorre recursivamente zero ou mais subpastas.
-- `*.py` → pega arquivos cujo nome termina em `py`
+- `/data/repos/` → base folder where the search starts.
+- `**/` → recursively traverses zero or more subfolders.
+- `*.py` → gets files whose names end with `.py`
 
 ## 3) **AI Agent**
 
-Neste nó podem ser usados dois tipos de APIs:
+This node can use two types of APIs:
 
-### **API Externa**: 
-Utiliza uma chave de API da OpenAI ou da Groq, obtida nas respetivas contas oficiais, para integrar o provedor externo ao teu fluxo conforme necessário.
-### **API Local**: 
-### 📥 Instalar o LM Studio
+### **External API**: 
+Uses an API key from OpenAI or Groq, obtained from their respective official accounts, to integrate the external provider into your workflow as needed.
 
-Baixe e instale para **Windows/macOS/Linux**:
+### **Local API**: 
+### 📥 Install LM Studio
+
+Download and install for **Windows/macOS/Linux**:
 - **LM Studio — Download:** https://lmstudio.ai/download
 
-### ⬇️ Baixar um modelo
+### ⬇️ Download a Model
 
-No app, abra a aba de modelos (“Discover”), pesquise um modelo (ex.: llama-3.2-3b-instruct) clique em **Load**.  
+In the app, open the “Discover” tab, search for a model (e.g., llama-3.2-3b-instruct) and click **Load**.  
 
-### 🔌 Iniciar API local (OpenAI-compatible)
+### 🔌 Start Local API (OpenAI-compatible)
 
-1. No LM Studio, vá em **Developer / Start Server** (ou “Local Server”).  
+1. In LM Studio, go to **Developer / Start Server** (or “Local Server”).  
 
-### 🔗 Conectar no n8n
+### 🔗 Connect in n8n
 
-Use o nó **OpenAI Chat Model** (ou **OpenAI Compatible Chat**) e crie uma credencial com:
+Use the **OpenAI Chat Model** (or **OpenAI Compatible Chat**) node and create a credential with:
 - **API Key:** `lm-studio`
-- **Base URL:** `http://localhost:1234/v1` (ou `http://host.docker.internal:1234/v1` se o n8n estiver correndo em um container no Docker)
-- **Model:** exatamente o nome exibido no LM Studio (ex.: `llama-3.2-3b-instruct`)
+- **Base URL:** `http://localhost:1234/v1` (or `http://host.docker.internal:1234/v1` if n8n is running inside a Docker container)
+- **Model:** exactly the name displayed in LM Studio (e.g., `llama-3.2-3b-instruct`)
 
-### 4) Após isto, basta clicar em *Execute workflow* no n8n e a documentação será gerada e guardada na pasta indicada no nó **Salvar DOCUMENTATION** 
+### 4) After this, simply click *Execute workflow* in n8n and the documentation will be generated and saved in the folder specified in the **Save DOCUMENTATION** node.
+
 
 
 
