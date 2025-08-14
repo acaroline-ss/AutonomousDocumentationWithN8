@@ -38,7 +38,7 @@ Generates documentation in **Markdown** from files in a GitHub repository using 
   -e N8N_BASIC_AUTH_PASSWORD=<BASIC_AUTH_PASSWORD> ^
   <IMAGE_NAME>`
 
-### 2) Download the **workflow.json** file from this repository
+### 2) Download the `workflow.json` file from this repository
 
 ### 3) Access n8n 
 
@@ -101,7 +101,7 @@ Use the **OpenAI Chat Model** (or **OpenAI Compatible Chat**) node and create a 
 - **Base URL:** `http://localhost:1234/v1` (or `http://host.docker.internal:1234/v1` if n8n is running inside a Docker container)
 - **Model:** exactly the name displayed in LM Studio (e.g., `llama-3.2-3b-instruct`)
 
-### 4) After this, simply click *Execute workflow* in n8n and the documentation will be generated and saved in the folder specified in the **Save DOCUMENTATION** node.
+### 4) After this, simply click *Execute workflow* in n8n and the documentation will be generated and saved in the folder specified in the `Save DOCUMENTATION` node.
 
 
 
