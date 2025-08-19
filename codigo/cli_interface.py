@@ -1,8 +1,8 @@
 def ask_choice(options: dict):
-    print("\n📌 Escolha uma opção:\n")
+    print("\n📌 Choose an option:\n")
     for key, label in options.items():
         print(f"  {key} - {label}")
-    choice = input("\n➡️  Digite a opção: ").strip()
+    choice = input("\n➡️  Enter your choice: ").strip()
     return choice if choice in options else None
 
 def ask_input(prompt: str, default=None):
@@ -10,8 +10,8 @@ def ask_input(prompt: str, default=None):
     return value or default
 
 def confirm(prompt: str) -> bool:
-    ans = input(f"{prompt} (s/n): ").strip().lower()
-    return ans == "s"
+    ans = input(f"{prompt} (y/n): ").strip().lower()
+    return ans == "y"
 
 def banner():
     print("=" * 40)
@@ -19,13 +19,13 @@ def banner():
     print("=" * 40)
 
 def help_menu():
-    print("\nAjuda:\n")
-    print("1 - Clona um repositório remoto (simulado)")
-    print("2 - Atualiza um repositório existente")
-    print("3 - Lista arquivos Python de uma pasta")
-    print("4 - Baixa arquivos externos simulados")
-    print("5 - Resumo da pasta")
-    print("6 - Sai do programa\n")
+    print("\nHelp:\n")
+    print("1 - Clone a remote repository (simulated)")
+    print("2 - Update an existing repository")
+    print("3 - List Python files in a folder")
+    print("4 - Download external files (simulated)")
+    print("5 - Folder summary")
+    print("6 - Exit program\n")
 
 if __name__ == "__main__":
     banner()
