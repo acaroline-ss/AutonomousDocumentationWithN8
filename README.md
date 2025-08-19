@@ -73,7 +73,7 @@ Example:
 - `**/` → recursively traverses zero or more subfolders.
 - `*.py` → gets files whose names end with `.py`
 
-💡 For testing purposes, you can also use the folder `codigo` included in this repository as an example input. It contains sample files that allow you to quickly validate the auto-documentation workflow in n8n.
+💡For testing purposes, you can also use the folder `codigo` included in this repository as an example input. It contains sample files along with the already generated documentation, allowing you to quickly validate the auto-documentation workflow in n8n.
 
 ## 3) **AI Agent**
 
