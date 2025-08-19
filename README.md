@@ -1,6 +1,6 @@
 # Auto Documentation with n8n + LLM
 
-Generates documentation in **Markdown** from files in a GitHub repository using an **n8n** workflow connected to an **LLM** (Groq or LM Studio).  
+Generates documentation in **Markdown** from files in a GitHub repository using an **n8n** workflow connected to an **LLM**.  
 
 ## 📌 Overview
 - Clones a repository  
