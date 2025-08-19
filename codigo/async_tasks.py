@@ -3,8 +3,8 @@ import time
 from pathlib import Path
 
 async def fake_fetch(url, out_file):
-    await asyncio.sleep(1)  # simula latência
-    Path(out_file).write_text(f"Conteúdo baixado de {url}", encoding="utf-8")
+    await asyncio.sleep(1)  # simulate latency
+    Path(out_file).write_text(f"Downloaded content from {url}", encoding="utf-8")
     return out_file
 
 async def fake_downloads(urls, out_dir="downloads"):
@@ -18,11 +18,12 @@ async def fake_downloads(urls, out_dir="downloads"):
 def run_fake_downloads(urls):
     start = time.time()
     results = asyncio.run(fake_downloads(urls))
-    print(f"⏱️ Tempo total: {time.time() - start:.2f}s")
+    print(f"⏱️ Total time: {time.time() - start:.2f}s")
     return results
 
 async def periodic_task(interval=2, count=3):
     for i in range(count):
-        print(f"🔄 Tarefa periódica {i+1}/{count}")
+        print(f"🔄 Periodic task {i+1}/{count}")
         await asyncio.sleep(interval)
-    return "Finalizado"
+    return "Finished"
+
