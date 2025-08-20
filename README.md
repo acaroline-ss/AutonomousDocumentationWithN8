@@ -73,7 +73,7 @@ Example:
 - `**/` → recursively traverses zero or more subfolders.
 - `*.py` → gets files whose names end with `.py`
 
-💡 For testing purposes, you can use the folder codigo as an example input. Inside it, you will find some files that can be used to generate documentation. Outside this folder, there is the DOCUMENTATION.md file, which contains the documentation already generated in n8n.
+💡 For testing purposes, you can use the folder `codigo` as an example input. Inside it, you will find some files that can be used to generate documentation. Outside this folder, there is the DOCUMENTATION.md file, which contains the documentation already generated in n8n.
 
 ## 3) **AI Agent**
 
